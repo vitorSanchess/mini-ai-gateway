@@ -24,7 +24,7 @@ flowchart LR
 - **Routing & Automatic Fallback:** Executes an ordered chain of `(provider, model)` routes and automatically fails over on upstream errors (e.g., `503 UNAVAILABLE`, timeouts, connection failures).
 - **Thread-Safe In-Memory Cache:** Deterministic SHA-256 cache keys with configurable TTL (`time.monotonic()`) and LRU eviction (`OrderedDict`) to reduce latency and token costs on repeated prompts.
 - **Typed Configuration & Contracts:** Environment-based settings with `pydantic-settings` and strict request/response validation with Pydantic.
-- **Normalized Metadata:** Every response reports `provider_usado`, `modelo_usado`, `latencia_ms`, `tokens_usados` (`input_tokens`, `output_tokens`, `total_tokens`), `cache_hit`, `fallback_usado`, and `tentativas`.
+- **Normalized Metadata:** Every response reports `answer`, `provider`, `model`, `latency_ms`, `tokens_used` (`input_tokens`, `output_tokens`, `total_tokens`), `cache_hit`, `fallback`, and `attempts`.
 
 ## Roadmap
 
@@ -129,17 +129,17 @@ Returns service status, active route chain, and current cache entry count.
 
 ```json
 {
-  "resposta": "Um AI Gateway é uma camada intermediária entre aplicações e provedores de LLMs...",
-  "provider_usado": "gemini",
-  "modelo_usado": "gemini-3.8-flash",
-  "latencia_ms": 612.45,
-  "tokens_usados": {
+  "answer": "Um AI Gateway é uma camada intermediária entre aplicações e provedores de LLMs...",
+  "provider": "gemini",
+  "model": "gemini-3.8-flash",
+  "latency_ms": 612.45,
+  "tokens_used": {
     "input_tokens": 24,
     "output_tokens": 58,
     "total_tokens": 82
   },
   "cache_hit": false,
-  "fallback_usado": false,
-  "tentativas": 1
+  "fallback": false,
+  "attempts": 1
 }
 ```

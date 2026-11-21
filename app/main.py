@@ -119,12 +119,13 @@ def chat(
         ) from exc
 
     return ChatResponse(
-        resposta=gateway_result.result.text,
-        provider_usado=gateway_result.result.provider,
-        modelo_usado=gateway_result.result.model,
-        latencia_ms=gateway_result.latency_ms,
-        tokens_usados=gateway_result.result.tokens,
+        answer=gateway_result.result.text,
+        provider=gateway_result.result.provider,
+        model=gateway_result.result.model,
+        latency_ms=gateway_result.latency_ms,
+        tokens_used=gateway_result.result.tokens,
         cache_hit=gateway_result.cache_hit,
-        fallback_usado=gateway_result.fallback_used,
-        tentativas=gateway_result.attempts,
+        fallback=gateway_result.fallback_used,
+        attempts=gateway_result.attempts,
     )
+    
