@@ -12,7 +12,7 @@ class Settings(BaseSettings):
 
     # Primary & secondary Gemini models
     gemini_api_key: str = ""
-    gemini_model: str = "gemini-3.8-flash"
+    gemini_model: str = "gemini-4-hydrogen"
     gemini_fallback_model: str = ""
 
     # Optional local Ollama fallback
@@ -23,6 +23,10 @@ class Settings(BaseSettings):
     # In-memory TTL + LRU cache
     cache_ttl_seconds: int = 300
     cache_max_size: int = 256
+
+    # Security & observability
+    pii_guardrail_enabled: bool = True
+    log_level: str = "INFO"
 
     model_config = SettingsConfigDict(
         env_file=".env",

@@ -39,6 +39,7 @@ class TokenUsage(BaseModel):
 class ChatResponse(BaseModel):
     """Normalized response returned by POST /v1/chat."""
 
+    request_id: str
     answer: str
     provider: str
     model: str
@@ -47,6 +48,8 @@ class ChatResponse(BaseModel):
     cache_hit: bool = False
     fallback: bool = False
     attempts: int = Field(default=1, ge=0)
+    pii_redacted: bool = False
+    redactions: dict[str, int] = Field(default_factory=dict)
 
 
 class HealthResponse(BaseModel):
@@ -57,3 +60,32 @@ class HealthResponse(BaseModel):
     environment: str
     routes: list[str]
     cache_entries: int
+    pii_guardrail_enabled: bool
+
+
+class LatencyStats(BaseModel):
+    """Aggregated latency metrics in milliseconds."""
+
+    avg: float = 0.0
+    min: float = 0.0
+    max: float = 0.0
+
+
+class MetricsResponse(BaseModel):
+    """Operational metrics exposed via GET /metrics."""
+
+    uptime_seconds: float
+    total_requests: int
+    successful_requests: int
+    failed_requests: int
+    cache_hits: int
+    cache_misses: int
+    cache_hit_rate: float
+    cache_entries: int
+    fallback_count: int
+    pii_redacted_requests: int
+    pii_redactions_by_type: dict[str, int]
+    requests_by_provider: dict[str, int]
+    requests_by_model: dict[str, int]
+    tokens_consumed: TokenUsage
+    latency_ms: LatencyStats

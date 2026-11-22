@@ -1,6 +1,7 @@
 """Routing, automatic fallback, and caching orchestration for the AI Gateway."""
 
 from dataclasses import dataclass
+import logging
 import time
 
 from app.services.base import (
@@ -10,6 +11,8 @@ from app.services.base import (
     ProviderResult,
 )
 from app.services.cache import ResponseCache
+
+logger = logging.getLogger("mini_ai_gateway")
 
 
 @dataclass(frozen=True)
@@ -104,6 +107,17 @@ class GatewayRouter:
                 )
             except ProviderCallError as exc:
                 errors.append(str(exc))
+                logger.warning(
+                    "provider_route_failed",
+                    extra={
+                        "event": "provider_route_failed",
+                        "provider": target.provider.name,
+                        "model": target.model,
+                        "attempt": attempt_idx,
+                        "has_next_route": attempt_idx < len(plan),
+                        "error": str(exc),
+                    },
+                )
                 continue
 
             if use_cache:
