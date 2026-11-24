@@ -1,0 +1,19 @@
+# Never bake local secrets or virtual environments into the image
+.env
+.env.*
+.venv/
+venv/
+
+# Version control & tests
+.git/
+.gitignore
+tests/
+pytest.ini
+requirements-dev.txt
+.pytest_cache/
+
+# Python cache & OS artifacts
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
